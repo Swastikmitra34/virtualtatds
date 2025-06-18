@@ -5,9 +5,20 @@ import os
 from dotenv import load_dotenv
 import openai
 import base64
+from fastapi.middleware.cors import CORSMiddleware
+
+
+app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Make sure this import is correct. Update path if needed.
-from app.vector import search_similar
+from vector import search_similar
 
 # Load environment variables
 load_dotenv()
@@ -45,4 +56,5 @@ async def get_answer(query: Query):
             for url, text in references[:2]  # Return top 2 references
         ]
     }
+
 
